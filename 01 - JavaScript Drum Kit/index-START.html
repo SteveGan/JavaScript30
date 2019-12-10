@@ -59,6 +59,30 @@
 
 <script>
 
+
+  function palySound(e){
+    const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
+    const key = document.querySelector(`.key[data-key="${e.keyCode}"]`);
+    if(!audio) return; //stop the funtion from runing all together;
+    key.classList.remove('keyup');
+    key.classList.add('keydown');
+    key.classList.add('playing');
+    audio.currentTime = 0; //rewind to the start;
+    audio.play();
+  }
+
+  function removeTransition(e){
+    if(e.propertyName !== 'transform') return; // skip if it's not a tranform
+    e.target.classList.remove('keydown');
+    e.target.classList.add('keyup');
+    e.target.classList.remove('playing');
+    
+  }
+
+  const keys = document.querySelectorAll('.key');
+  keys.forEach(key => key.addEventListener('transitionend',removeTransition));
+  window.addEventListener('keydown', palySound);
+
 </script>
 
 
