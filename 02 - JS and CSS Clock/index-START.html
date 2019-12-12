@@ -6,14 +6,13 @@
 </head>
 <body>
 
-    <div class="clock">
-      <div class="clock-face">
-        <div class="hand hour-hand"></div>
-        <div class="hand min-hand"></div>
-        <div class="hand second-hand"></div>
-      </div>
+  <div class="clock">
+    <div class="clock-face">
+      <div class="hand hour-hand"></div>
+      <div class="hand min-hand"></div>
+      <div class="hand second-hand"></div>
     </div>
-
+  </div>
 
   <style>
     html {
@@ -42,10 +41,10 @@
       position: relative;
       padding: 2rem;
       box-shadow:
-        0 0 0 4px rgba(0,0,0,0.1),
-        inset 0 0 0 3px #EFEFEF,
-        inset 0 0 10px black,
-        0 0 10px rgba(0,0,0,0.2);
+      0 0 0 4px rgba(0,0,0,0.1),
+      inset 0 0 0 3px #EFEFEF,
+      inset 0 0 10px black,
+      0 0 10px rgba(0,0,0,0.2);
     }
 
     .clock-face {
@@ -61,13 +60,40 @@
       background: black;
       position: absolute;
       top: 50%;
+      transform-origin: 100%;
+      transform: rotate(90deg);
+      /*transition: all 0s cubic-bezier(0.68, -0.55, 0.76, 1.29);*/
     }
+
 
   </style>
 
   <script>
+    const secondHand = document.querySelector('.second-hand');
+    const minHand = document.querySelector('.min-hand');
+    const hoursHand = document.querySelector('.hour-hand');
+
+    function setDate(){
+      const now = new Date();
+      const seconds = now.getSeconds();
+      const minutes = now.getMinutes();
+      const hours = now.getHours();
+      const secondsDegrees = seconds * 6 + 90;
+      const minHandDegrees = minutes * 6 + 90;
+      const hoursHandDegrees = hours * 30 + 90;
+
+      handRotate(secondsDegrees, secondHand);
+      handRotate(minHandDegrees, minHand);
+      handRotate(hoursHandDegrees, hoursHand);
+    }
+
+    function handRotate(degrees, clockHand){
+      clockHand.style.transform = `rotate(${degrees}deg)`;
+    }
+
+    setInterval(setDate, 1000);
 
 
-  </script>
+</script>
 </body>
 </html>
